@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>StudyVault — JEE • NEET • NCERT</title>
+
+  <meta name="description"
+        content="StudyVault — a free study platform for JEE, NEET and NCERT students.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet">
+
+  <style>
+    /* =========================
+       RESET
+    ========================= */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: #080b12;
+      color: #f4f7fb;
+      line-height: 1.6;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* =========================
+       VARIABLES
+    ========================= */
+
+    :root {
+      --bg: #080b12;
+      --surface: #0e131d;
+      --surface-2: #141a26;
+      --border: #242c3a;
+      --text: #f4f7fb;
+      --muted: #9ba6b7;
+      --accent: #7c8cff;
+      --accent-2: #a66cff;
+      --success: #49d17d;
+      --warning: #f5c451;
+      --danger: #ff6b7a;
+      --radius: 20px;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 72px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 11, 18, 0.88);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      height: 100%;
+      margin: auto;
+      padding: 0 24px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+
+      display: grid;
+      place-items: center;
+
+      background: linear-gradient(
+        135deg,
+        var(--accent),
+        var(--accent-2)
+      );
+
+      color: white;
+      font-weight: 800;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      padding: 9px 13px;
+      border-radius: 10px;
+      transition: 0.2s;
+    }
+
+    .nav-btn:hover,
+    .nav-btn.active {
+      color: white;
+      background: var(--surface-2);
+    }
+
+    .search-btn {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      padding: 9px 14px;
+      border-radius: 10px;
+    }
+
+    .search-btn:hover {
+      color: white;
+      border-color: #394457;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    main {
+      min-height: calc(100vh - 72px);
+    }
+
+    .page {
+      display: none;
+      max-width: 1200px;
+      margin: auto;
+      padding: 70px 24px 100px;
+    }
+
+    .page.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      min-height: 620px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      border-radius: 50%;
+      background: rgba(124, 140, 255, 0.13);
+      filter: blur(100px);
+      top: -170px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 850px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 13px;
+      border: 1px solid var(--border);
+      background: rgba(20, 26, 38, 0.7);
+      border-radius: 999px;
+      color: #b9c1ff;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(48px, 8vw, 88px);
+      line-height: 1;
+      letter-spacing: -3px;
+      margin-bottom: 25px;
+    }
+
+    .gradient-text {
+      background: linear-gradient(
+        135deg,
+        #ffffff,
+        #aeb6ff,
+        #b47cff
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      max-width: 680px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      padding: 13px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: 0.2s;
+    }
+
+    .primary-btn {
+      background: white;
+      color: #080b12;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .secondary-btn {
+      background: var(--surface);
+      border-color: var(--border);
+      color: white;
+    }
+
+    .secondary-btn:hover {
+      border-color: #465268;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    .section-heading {
+      margin-bottom: 28px;
+    }
+
+    .section-heading h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 38px;
+      letter-spacing: -1px;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    /* =========================
+       EXAM CARDS
+    ========================= */
+
+    .exam-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .exam-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      min-height: 270px;
+
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: linear-gradient(
+        145deg,
+        var(--surface-2),
+        var(--surface)
+      );
+
+      transition: 0.25s;
+    }
+
+    .exam-card:hover {
+      transform: translateY(-5px);
+      border-color: #3b4659;
+    }
+
+    .exam-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: #20283a;
+      font-size: 24px;
+      margin-bottom: 22px;
+    }
+
+    .exam-card h3 {
+      font-size: 25px;
+      margin-bottom: 8px;
+    }
+
+    .exam-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .exam-link {
+      display: inline-block;
+      margin-top: 24px;
+      color: #b8c0ff;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* =========================
+       DASHBOARD HEADER
+    ========================= */
+
+    .dashboard-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 38px;
+    }
+
+    .dashboard-header h1 {
+      font-family: "Playfair Display", serif;
+      font-size: 50px;
+      letter-spacing: -1.5px;
+    }
+
+    .dashboard-header p {
+      color: var(--muted);
+    }
+
+    /* =========================
+       SUBJECT CARDS
+    ========================= */
+
+    .subject-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .subject-card {
+      padding: 25px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: 0.2s;
+    }
+
+    .subject-card:hover {
+      border-color: #3d485b;
+      transform: translateY(-3px);
+    }
+
+    .subject-number {
+      color: #7e8aa0;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .subject-card h3 {
+      margin-top: 7px;
+      font-size: 23px;
+    }
+
+    .subject-card p {
+      color: var(--muted);
+      margin-top: 5px;
+      font-size: 14px;
+    }
+
+    .resource-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .resource-btn {
+      padding: 10px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: #d7dce6;
+      font-size: 12px;
+      transition: 0.2s;
+    }
+
+    .resource-btn:hover {
+      background: #20283a;
+      color: white;
+    }
+
+    /* =========================
+       NCERT
+    ========================= */
+
+    .ncert-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .ncert-card {
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .ncert-card h3 {
+      font-size: 26px;
+      margin-bottom: 7px;
+    }
+
+    .ncert-card p {
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .class-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    /* =========================
+       FEATURE GRID
+    ========================= */
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 70px;
+    }
+
+    .feature {
+      padding: 20px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .feature span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* =========================
+       MODAL
+    ========================= */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+
+      display: none;
+      align-items: center;
+      justify-content: center;
+
+      padding: 20px;
+
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(600px, 100%);
+      max-height: 85vh;
+      overflow: auto;
+
+      padding: 28px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: #0e131d;
+      box-shadow: 0 30px 100px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-header h2 {
+      font-family: "Playfair Display", serif;
+      font-size: 28px;
+    }
+
+    .close-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: white;
+      font-size: 18px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 15px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #080b12;
+      color: white;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent);
+    }
+
+    .search-results {
+      margin-top: 15px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .search-result {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--surface);
+      cursor: pointer;
+    }
+
+    .search-result:hover {
+      background: var(--surface-2);
+    }
+
+    .search-result small {
+      color: var(--muted);
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    footer {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px 24px 50px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+      .exam-grid,
+      .subject-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .page {
+        padding: 45px 17px 70px;
+      }
+
+      .hero {
+        min-height: 560px;
+      }
+
+      .hero h1 {
+        font-size: 50px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .exam-grid,
+      .subject-grid,
+      .ncert-grid,
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard-header {
+        display: block;
+      }
+
+      .dashboard-header h1 {
+        font-size: 40px;
+      }
+
+      .search-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       NAVBAR
+  ========================= -->
+
+  <header class="navbar">
+    <div class="nav-inner">
+
+      <a href="#" class="logo" onclick="showPage('home')">
+        <span class="logo-mark">S</span>
+        <span>StudyVault</span>
+      </a>
+
+      <nav class="nav-links">
+        <button class="nav-btn active" data-page="home"
+                onclick="showPage('home')">
+          Home
+        </button>
+
+        <button class="nav-btn" data-page="jee"
+                onclick="showPage('jee')">
+          JEE
+        </button>
+
+        <button class="nav-btn" data-page="neet"
+                onclick="showPage('neet')">
+          NEET
+        </button>
+
+        <button class="nav-btn" data-page="ncert"
+                onclick="showPage('ncert')">
+          NCERT
+        </button>
+      </nav>
+
+      <button class="search-btn" onclick="openSearch()">
+        🔎 Search
+      </button>
+
+    </div>
+  </header>
+
+
+  <!-- =========================
+       MAIN
+  ========================= -->
+
+  <main>
+
+    <!-- =========================
+         HOME
+    ========================= -->
+
+    <section id="home" class="page active">
+
+      <div class="hero">
+
+        <div class="hero-content">
+
+          <div class="eyebrow">
+            ✦ Free learning • Built for students
+          </div>
+
+          <h1>
+            Study smarter with
+            <span class="gradient-text">StudyVault.</span>
+          </h1>
+
+          <p>
+            One organized place for JEE, NEET and NCERT preparation —
+            chapters, notes, questions, PYQs, revision and more.
+          </p>
+
+          <div class="hero-actions">
+
+            <button class="primary-btn"
+                    onclick="showPage('jee')">
+              Explore JEE →
+            </button>
+
+            <button class="secondary-btn"
+                    onclick="showPage('neet')">
+              Explore NEET
+            </button>
+
+            <button class="secondary-btn"
+                    onclick="showPage('ncert')">
+              Open NCERT
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="section-heading">
+        <h2>Choose your path.</h2>
+        <p>Everything organized around the way you actually study.</p>
+      </div>
+
+      <div class="exam-grid">
+
+        <div class="exam-card">
+
+          <div class="exam-icon">⚡</div>
+
+          <h3>JEE</h3>
+
+          <p>
+            Physics, Chemistry and Mathematics with chapter-wise
+            resources, PYQs, formulas and revision.
+          </p>
+
+          <span class="exam-link"
+                onclick="showPage('jee')">
+            Enter JEE →
+          </span>
+
+        </div>
+
+
+        <div class="exam-card">
+
+          <div class="exam-icon">🧬</div>
+
+          <h3>NEET</h3>
+
+          <p>
+            Physics, Chemistry and Biology resources designed
+            around the NEET preparation journey.
+          </p>
+
+          <span class="exam-link"
+                onclick="showPage('neet')">
+            Enter NEET →
+          </span>
+
+        </div>
+
+
+        <div class="exam-card">
+
+          <div class="exam-icon">📚</div>
+
+          <h3>NCERT Hub</h3>
+
+          <p>
+            Class 11 and 12 NCERT-focused study resources for
+            PCM and PCB students.
+          </p>
+
+          <span class="exam-link"
+                onclick="showPage('ncert')">
+            Open NCERT →
+          </span>
+
+        </div>
+
+      </div>
+
+
+      <div class="feature-grid">
+
+        <div class="feature">
+          <strong>📖 Notes</strong>
+          <span>Quick, organized study material.</span>
+        </div>
+
+        <div class="feature">
+          <strong>📝 PYQs</strong>
+          <span>Practice chapter by chapter.</span>
+        </div>
+
+        <div class="feature">
+          <strong>🧠 Revision</strong>
+          <span>Revise what actually matters.</span>
+        </div>
+
+        <div class="feature">
+          <strong>🎯 Tests</strong>
+          <span>Test yourself and improve.</span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         JEE
+    ========================= -->
+
+    <section id="jee" class="page">
+
+      <div class="dashboard-header">
+
+        <div>
+          <p>JEE Preparation</p>
+          <h1>JEE Vault</h1>
+          <p>
+            Your Physics, Chemistry and Mathematics study hub.
+          </p>
+        </div>
+
+        <button class="secondary-btn"
+                onclick="openSearch()">
+          🔎 Search resources
+        </button>
+
+      </div>
+
+
+      <div class="subject-grid">
+
+        <!-- PHYSICS -->
+
+        <div class="subject-card">
+
+          <span class="subject-number">01 • JEE</span>
+
+          <h3>Physics</h3>
+
+          <p>Concepts, formulas, problems and PYQs.</p>
+
+          <div class="resource-list">
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Physics','Chapters')">
+              Chapters
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Physics','Lectures')">
+              Lectures
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Physics','Notes')">
+              Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Physics','Short Notes')">
+              Short Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Physics','Formula Sheet')">
+              Formulas
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Physics','PYQs')">
+              PYQs
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Physics','Questions')">
+              Questions
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Physics','Tests')">
+              Tests
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- CHEMISTRY -->
+
+        <div class="subject-card">
+
+          <span class="subject-number">02 • JEE</span>
+
+          <h3>Chemistry</h3>
+
+          <p>Physical, Organic and Inorganic preparation.</p>
+
+          <div class="resource-list">
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Chemistry','Chapters')">
+              Chapters
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Chemistry','Lectures')">
+              Lectures
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Chemistry','Notes')">
+              Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Chemistry','Short Notes')">
+              Short Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Chemistry','Formula Sheet')">
+              Formulas
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Chemistry','PYQs')">
+              PYQs
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Chemistry','Questions')">
+              Questions
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Chemistry','Tests')">
+              Tests
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- MATHEMATICS -->
+
+        <div class="subject-card">
+
+          <span class="subject-number">03 • JEE</span>
+
+          <h3>Mathematics</h3>
+
+          <p>Problem solving, formulas and exam practice.</p>
+
+          <div class="resource-list">
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Mathematics','Chapters')">
+              Chapters
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Mathematics','Lectures')">
+              Lectures
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Mathematics','Notes')">
+              Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Mathematics','Short Notes')">
+              Short Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Mathematics','Formula Sheet')">
+              Formulas
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Mathematics','PYQs')">
+              PYQs
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Mathematics','Questions')">
+              Questions
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('JEE Mathematics','Tests')">
+              Tests
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         NEET
+    ========================= -->
+
+    <section id="neet" class="page">
+
+      <div class="dashboard-header">
+
+        <div>
+          <p>NEET Preparation</p>
+          <h1>NEET Vault</h1>
+          <p>
+            Physics, Chemistry and Biology in one organized system.
+          </p>
+        </div>
+
+        <button class="secondary-btn"
+                onclick="openSearch()">
+          🔎 Search resources
+        </button>
+
+      </div>
+
+
+      <div class="subject-grid">
+
+        <!-- PHYSICS -->
+
+        <div class="subject-card">
+
+          <span class="subject-number">01 • NEET</span>
+
+          <h3>Physics</h3>
+
+          <p>Concepts, formulas, numerical practice and PYQs.</p>
+
+          <div class="resource-list">
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Physics','Chapters')">
+              Chapters
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Physics','Lectures')">
+              Lectures
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Physics','Notes')">
+              Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Physics','Short Notes')">
+              Short Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Physics','Formula Sheet')">
+              Formulas
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Physics','PYQs')">
+              PYQs
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Physics','Questions')">
+              Questions
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Physics','Tests')">
+              Tests
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- CHEMISTRY -->
+
+        <div class="subject-card">
+
+          <span class="subject-number">02 • NEET</span>
+
+          <h3>Chemistry</h3>
+
+          <p>Physical, Organic and Inorganic Chemistry.</p>
+
+          <div class="resource-list">
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Chemistry','Chapters')">
+              Chapters
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Chemistry','Lectures')">
+              Lectures
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Chemistry','Notes')">
+              Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Chemistry','Short Notes')">
+              Short Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Chemistry','Formula Sheet')">
+              Formulas
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Chemistry','PYQs')">
+              PYQs
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Chemistry','Questions')">
+              Questions
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Chemistry','Tests')">
+              Tests
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- BIOLOGY -->
+
+        <div class="subject-card">
+
+          <span class="subject-number">03 • NEET</span>
+
+          <h3>Biology</h3>
+
+          <p>NCERT-focused Biology preparation and revision.</p>
+
+          <div class="resource-list">
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Biology','Chapters')">
+              Chapters
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Biology','Lectures')">
+              Lectures
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Biology','Notes')">
+              Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Biology','Short Notes')">
+              Short Notes
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Biology','Formula Sheet')">
+              Important Facts
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Biology','PYQs')">
+              PYQs
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Biology','Questions')">
+              Questions
+            </button>
+
+            <button class="resource-btn"
+                    onclick="openSubject('NEET Biology','Tests')">
+              Tests
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         NCERT
+    ========================= -->
+
+    <section id="ncert" class="page">
+
+      <div class="dashboard-header">
+
+        <div>
+          <p>NCERT Hub</p>
+          <h1>NCERT Vault</h1>
+          <p>
+            Class 11 and 12 resources for PCM and PCB students.
+          </p>
+        </div>
+
+        <a class="secondary-btn"
+           href="https://ncert.nic.in/textbook.php"
+           target="_blank"
+           rel="noopener noreferrer">
+          Official NCERT ↗
+        </a>
+
+      </div>
+
+
+      <div class="ncert-grid">
+
+        <!-- PCM -->
+
+        <div class="ncert-card">
+
+          <h3>🔬 PCM</h3>
+
+          <p>
+            Physics, Chemistry and Mathematics resources
+            for Classes 11 and 12.
+          </p>
+
+          <div class="class-buttons">
+
+            <button class="secondary-btn"
+                    onclick="selectNCERT('PCM','Class 11')">
+              Class 11
+            </button>
+
+            <button class="secondary-btn"
+                    onclick="selectNCERT('PCM','Class 12')">
+              Class 12
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- PCB -->
+
+        <div class="ncert-card">
+
+          <h3>🧬 PCB</h3>
+
+          <p>
+            Physics, Chemistry and Biology resources
+            for Classes 11 and 12.
+          </p>
+
+          <div class="class-buttons">
+
+            <button class="secondary-btn"
+                    onclick="selectNCERT('PCB','Class 11')">
+              Class 11
+            </button>
+
+            <button class="secondary-btn"
+                    onclick="selectNCERT('PCB','Class 12')">
+              Class 12
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="feature-grid">
+
+        <div class="feature">
+          <strong>📚 Chapters</strong>
+          <span>Organized chapter-by-chapter.</span>
+        </div>
+
+        <div class="feature">
+          <strong>⚡ Quick Notes</strong>
+          <span>Fast revision material.</span>
+        </div>
+
+        <div class="feature">
+          <strong>📝 Questions</strong>
+          <span>Practice important concepts.</span>
+        </div>
+
+        <div class="feature">
+          <strong>📄 Previous Papers</strong>
+          <span>Board preparation resources.</span>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       SUBJECT MODAL
+  ========================= -->
+
+  <div id="subjectModal"
+       class="modal-backdrop"
+       onclick="closeModalOutside(event, 'subjectModal')">
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <h2 id="subjectTitle">
+          Resource
+        </h2>
+
+        <button class="close-btn"
+                onclick="closeModal('subjectModal')">
+          ×
+        </button>
+
+      </div>
+
+      <p id="subjectDescription"
+         style="color:var(--muted);">
+      </p>
+
+      <div style="margin-top:22px;">
+
+        <div class="feature"
+             style="margin-bottom:10px;">
+          📚 Chapter system coming next.
+        </div>
+
+        <div class="feature"
+             style="margin-bottom:10px;">
+          📝 Questions and PYQs will be connected here.
+        </div>
+
+        <div class="feature"
+             style="margin-bottom:10px;">
+          🧠 Revision and tests will be added.
+        </div>
+
+        <div class="feature">
+          🤖 StudyVault AI will eventually become available here.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       SEARCH MODAL
+  ========================= -->
+
+  <div id="searchModal"
+       class="modal-backdrop"
+       onclick="closeModalOutside(event, 'searchModal')">
+
+    <div class="modal">
+
+      <div class="modal-header">
+
+        <h2>Search StudyVault</h2>
+
+        <button class="close-btn"
+                onclick="closeModal('searchModal')">
+          ×
+        </button>
+
+      </div>
+
+      <input id="searchInput"
+             class="search-input"
+             type="text"
+             placeholder="Search Physics, Biology, PYQs..."
+             autocomplete="off">
+
+      <div id="searchResults"
+           class="search-results">
+
+        <div class="search-result">
+          <strong>Try searching:</strong>
+          <small>
+            Physics, Chemistry, Mathematics, Biology, PYQs,
+            formulas, NCERT...
+          </small>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+
+  <footer>
+
+    <strong>StudyVault</strong>
+
+    <br>
+
+    Built for students. Built to make studying simpler.
+
+    <br><br>
+
+    © 2026 StudyVault
+
+  </footer>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    /* =========================
+       PAGE NAVIGATION
+    ========================= */
+
+    function showPage(pageId) {
+
+      const pages = document.querySelectorAll(".page");
+
+      pages.forEach(page => {
+        page.classList.remove("active");
+      });
+
+      const selectedPage = document.getElementById(pageId);
+
+      if (selectedPage) {
+        selectedPage.classList.add("active");
+      }
+
+      document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.classList.remove("active");
+
+        if (btn.dataset.page === pageId) {
+          btn.classList.add("active");
+        }
+      });
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    }
+
+
+    /* =========================
+       SUBJECT MODAL
+    ========================= */
+
+    function openSubject(subject, resource) {
+
+      document.getElementById("subjectTitle").textContent =
+        subject + " • " + resource;
+
+      document.getElementById("subjectDescription").textContent =
+        "This is where the " +
+        resource.toLowerCase() +
+        " section for " +
+        subject +
+        " will live.";
+
+      document
+        .getElementById("subjectModal")
+        .classList.add("open");
+    }
+
+
+    /* =========================
+       NCERT
+    ========================= */
+
+    function selectNCERT(stream, className) {
+
+      openSubject(
+        stream + " • " + className,
+        "NCERT Resources"
+      );
+
+    }
+
+
+    /* =========================
+       MODALS
+    ========================= */
+
+    function openSearch() {
+
+      document
+        .getElementById("searchModal")
+        .classList.add("open");
+
+      setTimeout(() => {
+
+        document
+          .getElementById("searchInput")
+          .focus();
+
+      }, 100);
+
+    }
+
+
+    function closeModal(id) {
+
+      document
+        .getElementById(id)
+        .classList.remove("open");
+
+    }
+
+
+    function closeModalOutside(event, id) {
+
+      if (event.target.id === id) {
+        closeModal(id);
+      }
+
+    }
+
+
+    /* =========================
+       SEARCH SYSTEM
+    ========================= */
+
+    const searchableItems = [
+
+      {
+        name: "JEE Physics",
+        type: "JEE",
+        action: () => showPage("jee")
+      },
+
+      {
+        name: "JEE Chemistry",
+        type: "JEE",
+        action: () => showPage("jee")
+      },
+
+      {
+        name: "JEE Mathematics",
+        type: "JEE",
+        action: () => showPage("jee")
+      },
+
+      {
+        name: "NEET Physics",
+        type: "NEET",
+        action: () => showPage("neet")
+      },
+
+      {
+        name: "NEET Chemistry",
+        type: "NEET",
+        action: () => showPage("neet")
+      },
+
+      {
+        name: "NEET Biology",
+        type: "NEET",
+        action: () => showPage("neet")
+      },
+
+      {
+        name: "NCERT Class 11",
+        type: "NCERT",
+        action: () => showPage("ncert")
+      },
+
+      {
+        name: "NCERT Class 12",
+        type: "NCERT",
+        action: () => showPage("ncert")
+      },
+
+      {
+        name: "JEE PYQs",
+        type: "Practice",
+        action: () => showPage("jee")
+      },
+
+      {
+        name: "NEET PYQs",
+        type: "Practice",
+        action: () => showPage("neet")
+      },
+
+      {
+        name: "Formula Sheets",
+        type: "Revision",
+        action: () => showPage("jee")
+      },
+
+      {
+        name: "Short Notes",
+        type: "Revision",
+        action: () => showPage("home")
+      }
+
+    ];
+
+
+    const searchInput =
+      document.getElementById("searchInput");
+
+
+    searchInput.addEventListener(
+      "input",
+      function () {
+
+        const query =
+          this.value
+            .toLowerCase()
+            .trim();
+
+        const results =
+          document.getElementById("searchResults");
+
+        if (!query) {
+
+          results.innerHTML = `
+            <div class="search-result">
+              <strong>Try searching:</strong>
+              <small>
+                Physics, Chemistry, Mathematics,
+                Biology, PYQs, formulas, NCERT...
+              </small>
+            </div>
+          `;
+
+          return;
+        }
+
+
+        const matches =
+          searchableItems.filter(item =>
+            item.name
+              .toLowerCase()
+              .includes(query) ||
+            item.type
+              .toLowerCase()
+              .includes(query)
+          );
+
+
+        if (matches.length === 0) {
+
+          results.innerHTML = `
+            <div class="search-result">
+              <strong>No results found.</strong>
+              <small>
+                Try another search term.
+              </small>
+            </div>
+          `;
+
+          return;
+        }
+
+
+        results.innerHTML =
+          matches.map((item, index) => `
+
+            <div class="search-result"
+                 data-result="${index}">
+
+              <strong>${item.name}</strong>
+
+              <br>
+
+              <small>${item.type}</small>
+
+            </div>
+
+          `).join("");
+
+
+        results
+          .querySelectorAll(".search-result")
+          .forEach((element, index) => {
+
+            element.addEventListener(
+              "click",
+              () => {
+
+                matches[index].action();
+
+                closeModal("searchModal");
+
+              }
+            );
+
+          });
+
+      }
+    );
+
+
+    /* =========================
+       KEYBOARD SHORTCUTS
+    ========================= */
+
+    document.addEventListener(
+      "keydown",
+      function(event) {
+
+        if (
+          (event.ctrlKey || event.metaKey) &&
+          event.key.toLowerCase() === "k"
+        ) {
+
+          event.preventDefault();
+
+          openSearch();
+
+        }
+
+
+        if (event.key === "Escape") {
+
+          closeModal("searchModal");
+          closeModal("subjectModal");
+
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,3525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="StudyVault — a clean study space for JEE, NEET and NCERT preparation.">
+<title>StudyVault — Study Smarter</title>
+
+<style>
+/* =========================================================
+   STUDYVAULT V4
+   ========================================================= */
+
+:root{
+  --bg:#f7f7f4;
+  --surface:#ffffff;
+  --surface-2:#f0f0ec;
+  --text:#111214;
+  --muted:#666970;
+  --line:#dcded9;
+  --line-dark:#c9cbc6;
+  --accent:#6d4aff;
+  --accent-2:#9a78ff;
+  --accent-soft:#eee9ff;
+  --nav-bg:rgba(247,247,244,.86);
+  --shadow:0 20px 60px rgba(0,0,0,.07);
+  --radius:18px;
+  --max:1240px;
+}
+
+html[data-theme="dark"]{
+  --bg:#08090d;
+  --surface:#101217;
+  --surface-2:#15171d;
+  --text:#f5f4f0;
+  --muted:#a1a5af;
+  --line:#292c34;
+  --line-dark:#393c45;
+  --accent:#9274ff;
+  --accent-2:#b59fff;
+  --accent-soft:#1c1731;
+  --nav-bg:rgba(8,9,13,.86);
+  --shadow:0 25px 80px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:
+    Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+  line-height:1.5;
+  overflow-x:hidden;
+  transition:background .35s ease,color .35s ease;
+}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+::selection{
+  background:var(--accent);
+  color:white;
+}
+
+/* ---------- UTILITIES ---------- */
+
+.container{
+  width:min(var(--max), calc(100% - 48px));
+  margin:auto;
+}
+
+.hidden{
+  display:none!important;
+}
+
+.eyebrow{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  color:var(--accent);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+}
+
+.eyebrow::before{
+  content:"";
+  width:28px;
+  height:1px;
+  background:currentColor;
+}
+
+.serif{
+  font-family:Georgia, "Times New Roman", serif;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.nav{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  background:var(--nav-bg);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid var(--line);
+}
+
+.nav-inner{
+  width:min(var(--max), calc(100% - 48px));
+  height:76px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:850;
+  font-size:20px;
+  letter-spacing:-.04em;
+}
+
+.brand-mark{
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  background:var(--text);
+  color:var(--bg);
+  border-radius:11px;
+  font-family:Georgia,serif;
+  font-size:22px;
+  font-weight:bold;
+  transition:.3s;
+}
+
+.brand:hover .brand-mark{
+  transform:rotate(-7deg);
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:5px;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+}
+
+.nav-links button{
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  padding:10px 15px;
+  border-radius:10px;
+  transition:.2s;
+}
+
+.nav-links button:hover,
+.nav-links button.active{
+  color:var(--text);
+  background:var(--surface-2);
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.icon-btn{
+  width:42px;
+  height:42px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--text);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  transition:.25s;
+}
+
+.icon-btn:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+}
+
+.search-nav{
+  width:auto;
+  border-radius:12px;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+}
+
+.mobile-menu{
+  display:none;
+}
+
+/* =========================================================
+   PAGE SYSTEM
+   ========================================================= */
+
+.page{
+  display:none;
+  padding-top:76px;
+  min-height:100vh;
+}
+
+.page.active{
+  display:block;
+}
+
+/* =========================================================
+   HOME — EDITORIAL HERO
+   ========================================================= */
+
+.hero{
+  min-height:calc(100vh - 76px);
+  display:flex;
+  align-items:center;
+  position:relative;
+  overflow:hidden;
+  padding:100px 0 90px;
+}
+
+.hero::before{
+  content:"";
+  position:absolute;
+  width:600px;
+  height:600px;
+  right:-260px;
+  top:60px;
+  border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(109,74,255,.18),
+    rgba(109,74,255,0) 68%);
+  pointer-events:none;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  left:-300px;
+  bottom:-250px;
+  border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(109,74,255,.12),
+    transparent 68%);
+  pointer-events:none;
+}
+
+.hero-grid{
+  position:relative;
+  z-index:2;
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:70px;
+  align-items:end;
+}
+
+.hero-copy{
+  max-width:900px;
+}
+
+.hero-label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid var(--line);
+  padding:8px 13px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:750;
+  color:var(--muted);
+  margin-bottom:30px;
+}
+
+.hero-label span{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 15px var(--accent);
+}
+
+.hero h1{
+  font-size:clamp(62px,9vw,132px);
+  line-height:.84;
+  letter-spacing:-.075em;
+  font-weight:800;
+}
+
+.hero h1 em{
+  display:block;
+  color:var(--accent);
+  font-family:Georgia,"Times New Roman",serif;
+  font-weight:400;
+  letter-spacing:-.08em;
+}
+
+.hero-description{
+  max-width:620px;
+  margin-top:40px;
+  font-size:18px;
+  line-height:1.7;
+  color:var(--muted);
+}
+
+.hero-side{
+  padding-bottom:12px;
+}
+
+.hero-side-number{
+  font-family:Georgia,serif;
+  font-size:100px;
+  line-height:.8;
+  color:var(--accent);
+  opacity:.85;
+}
+
+.hero-side p{
+  margin-top:25px;
+  max-width:250px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+.hero-actions{
+  margin-top:34px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+}
+
+.primary-btn,
+.secondary-btn{
+  border:1px solid var(--line);
+  padding:14px 20px;
+  border-radius:11px;
+  font-weight:750;
+  transition:.25s;
+}
+
+.primary-btn{
+  background:var(--text);
+  color:var(--bg);
+  border-color:var(--text);
+}
+
+.secondary-btn{
+  background:var(--surface);
+  color:var(--text);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+
+/* ---------- MARQUEE ---------- */
+
+.marquee{
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  overflow:hidden;
+  white-space:nowrap;
+}
+
+.marquee-track{
+  display:inline-flex;
+  align-items:center;
+  gap:40px;
+  padding:18px 0;
+  animation:marquee 28s linear infinite;
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+
+.marquee-dot{
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:var(--accent);
+}
+
+@keyframes marquee{
+  from{transform:translateX(0)}
+  to{transform:translateX(-50%)}
+}
+
+/* =========================================================
+   HOME EXAM SECTIONS
+   ========================================================= */
+
+.home-section{
+  padding:150px 0;
+  border-bottom:1px solid var(--line);
+  position:relative;
+  overflow:hidden;
+}
+
+.home-section-header{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:40px;
+  margin-bottom:90px;
+}
+
+.section-number{
+  font-family:Georgia,serif;
+  font-size:80px;
+  line-height:1;
+  color:var(--line-dark);
+}
+
+.section-title{
+  font-size:clamp(50px,7vw,90px);
+  line-height:.9;
+  letter-spacing:-.07em;
+  font-weight:800;
+}
+
+.section-title span{
+  color:var(--accent);
+  font-family:Georgia,serif;
+  font-weight:400;
+}
+
+.section-intro{
+  max-width:550px;
+  margin-top:28px;
+  color:var(--muted);
+  font-size:16px;
+}
+
+.subject-list{
+  border-top:1px solid var(--line);
+}
+
+.subject-row{
+  display:grid;
+  grid-template-columns:90px 1fr auto;
+  align-items:center;
+  gap:30px;
+  min-height:130px;
+  border-bottom:1px solid var(--line);
+  transition:.3s;
+  cursor:pointer;
+}
+
+.subject-row:hover{
+  padding-left:20px;
+  background:var(--surface);
+}
+
+.subject-index{
+  font-size:13px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.subject-name{
+  font-size:clamp(30px,4vw,50px);
+  font-weight:750;
+  letter-spacing:-.055em;
+}
+
+.subject-meta{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:5px;
+}
+
+.subject-arrow{
+  width:48px;
+  height:48px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  transition:.3s;
+}
+
+.subject-row:hover .subject-arrow{
+  background:var(--text);
+  color:var(--bg);
+  transform:rotate(-45deg);
+}
+
+/* =========================================================
+   NCERT HOME
+   ========================================================= */
+
+.ncert-home{
+  background:var(--surface-2);
+}
+
+.ncert-columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+}
+
+.ncert-block{
+  background:var(--bg);
+  padding:45px;
+  min-height:300px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.ncert-block:hover{
+  background:var(--surface);
+}
+
+.ncert-block small{
+  color:var(--accent);
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+}
+
+.ncert-block h3{
+  margin-top:35px;
+  font-size:42px;
+  letter-spacing:-.06em;
+}
+
+.ncert-block p{
+  color:var(--muted);
+  margin-top:12px;
+  max-width:400px;
+}
+
+.ncert-block .go{
+  display:inline-block;
+  margin-top:35px;
+  font-weight:800;
+}
+
+/* =========================================================
+   HOME FOOTER
+   ========================================================= */
+
+.home-footer{
+  padding:100px 0 60px;
+}
+
+.footer-big{
+  font-size:clamp(50px,8vw,110px);
+  line-height:.88;
+  letter-spacing:-.07em;
+  max-width:900px;
+}
+
+.footer-big span{
+  color:var(--accent);
+  font-family:Georgia,serif;
+}
+
+.footer-bottom{
+  margin-top:100px;
+  padding-top:20px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font-size:12px;
+}
+
+/* =========================================================
+   SUBJECT PAGE
+   ========================================================= */
+
+.subject-page{
+  padding-bottom:100px;
+}
+
+.subject-hero{
+  padding:100px 0 90px;
+  border-bottom:1px solid var(--line);
+}
+
+.back-btn{
+  border:0;
+  background:none;
+  color:var(--muted);
+  display:inline-flex;
+  gap:8px;
+  align-items:center;
+  padding:0;
+  margin-bottom:55px;
+  font-weight:700;
+}
+
+.back-btn:hover{
+  color:var(--text);
+}
+
+.subject-hero-grid{
+  display:grid;
+  grid-template-columns:1fr 300px;
+  gap:70px;
+  align-items:end;
+}
+
+.subject-hero h1{
+  font-size:clamp(60px,9vw,120px);
+  line-height:.83;
+  letter-spacing:-.08em;
+}
+
+.subject-hero h1 span{
+  display:block;
+  color:var(--accent);
+  font-family:Georgia,serif;
+  font-weight:400;
+}
+
+.subject-hero-description{
+  max-width:580px;
+  color:var(--muted);
+  margin-top:30px;
+  font-size:17px;
+}
+
+.subject-stat{
+  border-left:1px solid var(--line);
+  padding-left:30px;
+}
+
+.subject-stat strong{
+  display:block;
+  font-family:Georgia,serif;
+  font-size:70px;
+  line-height:1;
+}
+
+.subject-stat span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* ---------- CHAPTER SEARCH ---------- */
+
+.chapter-tools{
+  padding:35px 0;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.chapter-search{
+  position:relative;
+  max-width:420px;
+  width:100%;
+}
+
+.chapter-search input{
+  width:100%;
+  border:1px solid var(--line);
+  background:var(--surface);
+  color:var(--text);
+  padding:14px 18px;
+  border-radius:10px;
+  outline:none;
+}
+
+.chapter-search input:focus{
+  border-color:var(--accent);
+}
+
+.chapter-count{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* ---------- CATEGORY ---------- */
+
+.chapter-category{
+  padding:75px 0 25px;
+}
+
+.category-heading{
+  display:flex;
+  align-items:baseline;
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.category-heading small{
+  color:var(--accent);
+  font-weight:850;
+  letter-spacing:.12em;
+}
+
+.category-heading h2{
+  font-size:clamp(28px,4vw,44px);
+  letter-spacing:-.055em;
+}
+
+.chapter-list{
+  border-top:1px solid var(--line);
+}
+
+.chapter-row{
+  min-height:84px;
+  border-bottom:1px solid var(--line);
+  display:grid;
+  grid-template-columns:55px 1fr 160px 45px;
+  align-items:center;
+  gap:20px;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.chapter-row:hover{
+  padding-left:18px;
+  background:var(--surface);
+}
+
+.chapter-number{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+
+.chapter-name{
+  font-size:17px;
+  font-weight:700;
+}
+
+.chapter-type{
+  color:var(--muted);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+}
+
+.chapter-arrow{
+  color:var(--muted);
+  font-size:20px;
+  transition:.25s;
+}
+
+.chapter-row:hover .chapter-arrow{
+  color:var(--accent);
+  transform:translateX(5px);
+}
+
+/* =========================================================
+   CHAPTER RESOURCE PAGE
+   ========================================================= */
+
+.chapter-page{
+  padding-bottom:120px;
+}
+
+.chapter-hero{
+  padding:100px 0 65px;
+  border-bottom:1px solid var(--line);
+}
+
+.chapter-hero .back-btn{
+  margin-bottom:45px;
+}
+
+.chapter-kicker{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+}
+
+.chapter-hero h1{
+  margin-top:15px;
+  font-size:clamp(55px,8vw,110px);
+  line-height:.86;
+  letter-spacing:-.075em;
+  max-width:1000px;
+}
+
+.chapter-hero p{
+  margin-top:28px;
+  color:var(--muted);
+  max-width:650px;
+  font-size:17px;
+}
+
+/* ---------- RESOURCE NAV ---------- */
+
+.resource-nav{
+  position:sticky;
+  top:76px;
+  z-index:50;
+  background:var(--nav-bg);
+  backdrop-filter:blur(15px);
+  border-bottom:1px solid var(--line);
+}
+
+.resource-nav-inner{
+  display:flex;
+  gap:0;
+  overflow-x:auto;
+}
+
+.resource-tab{
+  border:0;
+  border-bottom:2px solid transparent;
+  background:none;
+  color:var(--muted);
+  padding:18px 18px;
+  white-space:nowrap;
+  font-size:13px;
+  font-weight:750;
+}
+
+.resource-tab:hover,
+.resource-tab.active{
+  color:var(--text);
+  border-bottom-color:var(--accent);
+}
+
+.resource-content{
+  padding:70px 0;
+}
+
+.resource-panel{
+  display:none;
+  animation:panelIn .35s ease;
+}
+
+.resource-panel.active{
+  display:block;
+}
+
+@keyframes panelIn{
+  from{
+    opacity:0;
+    transform:translateY(8px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+.resource-layout{
+  display:grid;
+  grid-template-columns:220px 1fr;
+  gap:70px;
+}
+
+.resource-side-label{
+  color:var(--accent);
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+}
+
+.resource-main{
+  max-width:760px;
+}
+
+.resource-main h2{
+  font-family:Georgia,serif;
+  font-size:48px;
+  line-height:1;
+  letter-spacing:-.05em;
+}
+
+.resource-main p{
+  margin-top:20px;
+  color:var(--muted);
+}
+
+.resource-note{
+  margin-top:40px;
+  padding:25px;
+  border:1px solid var(--line);
+  background:var(--surface);
+  border-left:3px solid var(--accent);
+}
+
+.resource-list{
+  margin-top:30px;
+  border-top:1px solid var(--line);
+}
+
+.resource-list-item{
+  padding:18px 0;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.resource-list-item span:last-child{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* =========================================================
+   NCERT PAGE
+   ========================================================= */
+
+.ncert-page{
+  padding-bottom:120px;
+}
+
+.ncert-hero{
+  padding:100px 0 75px;
+  border-bottom:1px solid var(--line);
+}
+
+.ncert-hero h1{
+  margin-top:20px;
+  font-size:clamp(65px,10vw,135px);
+  line-height:.82;
+  letter-spacing:-.08em;
+}
+
+.ncert-hero h1 span{
+  font-family:Georgia,serif;
+  color:var(--accent);
+  font-weight:400;
+}
+
+.ncert-hero p{
+  margin-top:30px;
+  max-width:650px;
+  color:var(--muted);
+  font-size:17px;
+}
+
+.ncert-controls{
+  display:flex;
+  gap:8px;
+  padding:25px 0;
+  border-bottom:1px solid var(--line);
+  flex-wrap:wrap;
+}
+
+.ncert-filter{
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--muted);
+  padding:9px 15px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:700;
+}
+
+.ncert-filter.active,
+.ncert-filter:hover{
+  background:var(--text);
+  color:var(--bg);
+  border-color:var(--text);
+}
+
+.ncert-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;
+  background:var(--line);
+  border:1px solid var(--line);
+  margin-top:55px;
+}
+
+.ncert-card{
+  background:var(--bg);
+  padding:35px;
+  min-height:250px;
+  transition:.25s;
+  cursor:pointer;
+}
+
+.ncert-card:hover{
+  background:var(--surface);
+}
+
+.ncert-card .num{
+  color:var(--accent);
+  font-family:Georgia,serif;
+  font-size:34px;
+}
+
+.ncert-card h3{
+  margin-top:25px;
+  font-size:28px;
+  letter-spacing:-.045em;
+}
+
+.ncert-card p{
+  margin-top:10px;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* =========================================================
+   SEARCH OVERLAY
+   ========================================================= */
+
+.search-overlay{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  background:rgba(0,0,0,.55);
+  backdrop-filter:blur(10px);
+  display:none;
+  padding:100px 20px;
+}
+
+.search-overlay.open{
+  display:block;
+}
+
+.search-box{
+  width:min(850px,100%);
+  margin:auto;
+  background:var(--surface);
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  padding:30px;
+}
+
+.search-top{
+  display:flex;
+  gap:10px;
+}
+
+.search-top input{
+  flex:1;
+  border:0;
+  border-bottom:1px solid var(--line);
+  background:transparent;
+  color:var(--text);
+  outline:none;
+  padding:15px 5px;
+  font-size:28px;
+}
+
+.close-search{
+  width:45px;
+  height:45px;
+  border:1px solid var(--line);
+  background:transparent;
+  color:var(--text);
+  border-radius:50%;
+}
+
+.search-results{
+  margin-top:25px;
+  max-height:60vh;
+  overflow-y:auto;
+}
+
+.search-result{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  align-items:center;
+  padding:20px 5px;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;
+}
+
+.search-result:hover{
+  color:var(--accent);
+}
+
+.search-result small{
+  color:var(--muted);
+}
+
+/* =========================================================
+   SCROLL REVEALS
+   ========================================================= */
+
+.reveal{
+  opacity:0;
+  transform:translateY(50px);
+  transition:
+    opacity .8s cubic-bezier(.2,.7,.2,1),
+    transform .8s cubic-bezier(.2,.7,.2,1);
+}
+
+.reveal.from-left{
+  transform:translateX(-70px);
+}
+
+.reveal.from-right{
+  transform:translateX(70px);
+}
+
+.reveal.visible{
+  opacity:1;
+  transform:none;
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media(max-width:850px){
+
+  .container,
+  .nav-inner{
+    width:min(100% - 30px, var(--max));
+  }
+
+  .nav-inner{
+    height:68px;
+  }
+
+  .page{
+    padding-top:68px;
+  }
+
+  .nav-links{
+    display:none;
+  }
+
+  .search-nav{
+    display:none;
+  }
+
+  .mobile-menu{
+    display:grid;
+  }
+
+  .nav-links.mobile-open{
+    display:flex;
+    position:absolute;
+    top:68px;
+    left:0;
+    transform:none;
+    width:100%;
+    background:var(--surface);
+    border-bottom:1px solid var(--line);
+    padding:12px 15px;
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .nav-links.mobile-open button{
+    text-align:left;
+    padding:14px;
+  }
+
+  .hero{
+    min-height:auto;
+    padding:85px 0 100px;
+  }
+
+  .hero-grid{
+    grid-template-columns:1fr;
+    gap:55px;
+  }
+
+  .hero h1{
+    font-size:clamp(60px,18vw,105px);
+  }
+
+  .hero-side-number{
+    font-size:70px;
+  }
+
+  .home-section{
+    padding:100px 0;
+  }
+
+  .home-section-header{
+    grid-template-columns:1fr;
+    gap:15px;
+    margin-bottom:60px;
+  }
+
+  .section-number{
+    font-size:55px;
+  }
+
+  .subject-row{
+    grid-template-columns:45px 1fr 45px;
+    gap:10px;
+    min-height:105px;
+  }
+
+  .subject-meta{
+    display:none;
+  }
+
+  .ncert-columns,
+  .ncert-grid{
+    grid-template-columns:1fr;
+  }
+
+  .ncert-block{
+    padding:30px;
+    min-height:230px;
+  }
+
+  .subject-hero{
+    padding:75px 0;
+  }
+
+  .subject-hero-grid{
+    grid-template-columns:1fr;
+    gap:45px;
+  }
+
+  .subject-stat{
+    border-left:0;
+    border-top:1px solid var(--line);
+    padding:25px 0 0;
+  }
+
+  .chapter-tools{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .chapter-row{
+    grid-template-columns:42px 1fr 30px;
+    gap:8px;
+    min-height:78px;
+  }
+
+  .chapter-type{
+    display:none;
+  }
+
+  .resource-nav{
+    top:68px;
+  }
+
+  .resource-tab{
+    padding:15px 13px;
+  }
+
+  .resource-layout{
+    grid-template-columns:1fr;
+    gap:25px;
+  }
+
+  .resource-main h2{
+    font-size:40px;
+  }
+
+  .footer-bottom{
+    flex-direction:column;
+    gap:10px;
+  }
+}
+
+@media(max-width:500px){
+
+  .brand{
+    font-size:17px;
+  }
+
+  .brand-mark{
+    width:34px;
+    height:34px;
+  }
+
+  .hero-description{
+    font-size:16px;
+  }
+
+  .hero-actions{
+    flex-direction:column;
+  }
+
+  .hero-actions button{
+    width:100%;
+  }
+
+  .subject-name{
+    font-size:28px;
+  }
+
+  .category-heading{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:5px;
+  }
+
+  .ncert-card h3{
+    font-size:24px;
+  }
+}
+
+/* Reduced motion */
+@media(prefers-reduced-motion:reduce){
+  *,
+  *::before,
+  *::after{
+    scroll-behavior:auto!important;
+    animation:none!important;
+    transition:none!important;
+  }
+
+  .reveal{
+    opacity:1!important;
+    transform:none!important;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =======================================================
+     NAVBAR
+     ======================================================= -->
+
+<header class="nav">
+  <div class="nav-inner">
+
+    <a href="#" class="brand" onclick="goHome();return false;">
+      <span class="brand-mark">S</span>
+      <span>StudyVault</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <button onclick="goHome()">Home</button>
+      <button onclick="openExam('JEE')">JEE</button>
+      <button onclick="openExam('NEET')">NEET</button>
+      <button onclick="openNCERT()">NCERT</button>
+    </nav>
+
+    <div class="nav-actions">
+
+      <button class="icon-btn search-nav" onclick="openSearch()">
+        🔎 <span>Search</span>
+      </button>
+
+      <button
+        class="icon-btn"
+        id="themeBtn"
+        onclick="toggleTheme()"
+        aria-label="Toggle theme">
+        ◐
+      </button>
+
+      <button
+        class="icon-btn mobile-menu"
+        onclick="toggleMobileMenu()"
+        aria-label="Menu">
+        ☰
+      </button>
+
+    </div>
+  </div>
+</header>
+
+
+<!-- =======================================================
+     HOME PAGE
+     ======================================================= -->
+
+<main id="homePage" class="page active">
+
+  <section class="hero">
+    <div class="container hero-grid">
+
+      <div class="hero-copy reveal from-left">
+
+        <div class="hero-label">
+          <span></span>
+          Free learning · Built for students
+        </div>
+
+        <h1>
+          Study
+          <em>smarter.</em>
+          Not harder.
+        </h1>
+
+        <p class="hero-description">
+          One organized place for JEE, NEET and NCERT preparation —
+          chapters, notes, questions, PYQs, revision and everything
+          you need to keep moving.
+        </p>
+
+        <div class="hero-actions">
+          <button class="primary-btn" onclick="openExam('JEE')">
+            Explore JEE →
+          </button>
+
+          <button class="secondary-btn" onclick="openExam('NEET')">
+            Explore NEET
+          </button>
+
+          <button class="secondary-btn" onclick="openNCERT()">
+            Open NCERT
+          </button>
+        </div>
+
+      </div>
+
+      <div class="hero-side reveal from-right">
+        <div class="hero-side-number">01</div>
+        <p>
+          A clean study workspace designed around
+          how students actually prepare:
+          subject → chapter → resource.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>JEE</span>
+      <span class="marquee-dot"></span>
+      <span>NEET</span>
+      <span class="marquee-dot"></span>
+      <span>NCERT</span>
+      <span class="marquee-dot"></span>
+      <span>PYQs</span>
+      <span class="marquee-dot"></span>
+      <span>REVISION</span>
+      <span class="marquee-dot"></span>
+      <span>FORMULAS</span>
+      <span class="marquee-dot"></span>
+      <span>QUESTIONS</span>
+      <span class="marquee-dot"></span>
+      <span>LECTURES</span>
+      <span class="marquee-dot"></span>
+
+      <span>JEE</span>
+      <span class="marquee-dot"></span>
+      <span>NEET</span>
+      <span class="marquee-dot"></span>
+      <span>NCERT</span>
+      <span class="marquee-dot"></span>
+      <span>PYQs</span>
+      <span class="marquee-dot"></span>
+      <span>REVISION</span>
+      <span class="marquee-dot"></span>
+      <span>FORMULAS</span>
+      <span class="marquee-dot"></span>
+      <span>QUESTIONS</span>
+      <span class="marquee-dot"></span>
+      <span>LECTURES</span>
+    </div>
+  </div>
+
+
+  <!-- JEE -->
+
+  <section class="home-section" id="jeeHome">
+
+    <div class="container">
+
+      <div class="home-section-header reveal from-left">
+
+        <div class="section-number">01</div>
+
+        <div>
+          <div class="eyebrow">Engineering entrance</div>
+
+          <h2 class="section-title">
+            JEE
+            <span>preparation.</span>
+          </h2>
+
+          <p class="section-intro">
+            Physics, Chemistry and Mathematics organized
+            chapter-by-chapter so you always know what to study next.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="subject-list">
+
+        <div class="subject-row reveal from-left"
+             onclick="openSubject('JEE','Physics')">
+          <div class="subject-index">01</div>
+          <div>
+            <div class="subject-name">Physics</div>
+            <div class="subject-meta">
+              Mechanics · Electrodynamics · Optics · Modern Physics
+            </div>
+          </div>
+          <div class="subject-arrow">↗</div>
+        </div>
+
+        <div class="subject-row reveal from-right"
+             onclick="openSubject('JEE','Chemistry')">
+          <div class="subject-index">02</div>
+          <div>
+            <div class="subject-name">Chemistry</div>
+            <div class="subject-meta">
+              Physical · Organic · Inorganic
+            </div>
+          </div>
+          <div class="subject-arrow">↗</div>
+        </div>
+
+        <div class="subject-row reveal from-left"
+             onclick="openSubject('JEE','Mathematics')">
+          <div class="subject-index">03</div>
+          <div>
+            <div class="subject-name">Mathematics</div>
+            <div class="subject-meta">
+              Algebra · Calculus · Coordinate · Vectors · Statistics
+            </div>
+          </div>
+          <div class="subject-arrow">↗</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- NEET -->
+
+  <section class="home-section" id="neetHome">
+
+    <div class="container">
+
+      <div class="home-section-header reveal from-right">
+
+        <div class="section-number">02</div>
+
+        <div>
+          <div class="eyebrow">Medical entrance</div>
+
+          <h2 class="section-title">
+            NEET
+            <span>preparation.</span>
+          </h2>
+
+          <p class="section-intro">
+            Physics, Chemistry and Biology with a clear chapter-first
+            structure for focused preparation.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="subject-list">
+
+        <div class="subject-row reveal from-right"
+             onclick="openSubject('NEET','Physics')">
+          <div class="subject-index">01</div>
+          <div>
+            <div class="subject-name">Physics</div>
+            <div class="subject-meta">
+              Mechanics · Electricity · Optics · Modern Physics
+            </div>
+          </div>
+          <div class="subject-arrow">↗</div>
+        </div>
+
+        <div class="subject-row reveal from-left"
+             onclick="openSubject('NEET','Chemistry')">
+          <div class="subject-index">02</div>
+          <div>
+            <div class="subject-name">Chemistry</div>
+            <div class="subject-meta">
+              Physical · Organic · Inorganic
+            </div>
+          </div>
+          <div class="subject-arrow">↗</div>
+        </div>
+
+        <div class="subject-row reveal from-right"
+             onclick="openSubject('NEET','Biology')">
+          <div class="subject-index">03</div>
+          <div>
+            <div class="subject-name">Biology</div>
+            <div class="subject-meta">
+              Cell · Genetics · Physiology · Ecology · Biotechnology
+            </div>
+          </div>
+          <div class="subject-arrow">↗</div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- NCERT -->
+
+  <section class="home-section ncert-home">
+
+    <div class="container">
+
+      <div class="home-section-header reveal from-left">
+
+        <div class="section-number">03</div>
+
+        <div>
+          <div class="eyebrow">School foundation</div>
+
+          <h2 class="section-title">
+            NCERT
+            <span>hub.</span>
+          </h2>
+
+          <p class="section-intro">
+            Class 11 and 12 resources for PCM and PCB students,
+            organized separately so your school preparation stays clean.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="ncert-columns">
+
+        <div class="ncert-block reveal from-left"
+             onclick="openNCERT('PCM')">
+          <small>Class 11 + 12</small>
+          <h3>PCM</h3>
+          <p>
+            Physics, Chemistry and Mathematics resources for
+            science students preparing with PCM.
+          </p>
+          <span class="go">Explore PCM →</span>
+        </div>
+
+        <div class="ncert-block reveal from-right"
+             onclick="openNCERT('PCB')">
+          <small>Class 11 + 12</small>
+          <h3>PCB</h3>
+          <p>
+            Physics, Chemistry and Biology resources for
+            students preparing with PCB.
+          </p>
+          <span class="go">Explore PCB →</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <footer class="home-footer">
+
+    <div class="container">
+
+      <div class="eyebrow">Keep going</div>
+
+      <div class="footer-big reveal from-left">
+        Your preparation.
+        <span>Your space.</span>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 StudyVault</span>
+        <span>Made for students · Free to use</span>
+      </div>
+
+    </div>
+
+  </footer>
+
+</main>
+
+
+<!-- =======================================================
+     SUBJECT PAGE
+     ======================================================= -->
+
+<main id="subjectPage" class="page subject-page">
+
+  <section class="subject-hero">
+
+    <div class="container">
+
+      <button class="back-btn" onclick="goHome()">
+        ← Back to StudyVault
+      </button>
+
+      <div class="subject-hero-grid">
+
+        <div class="reveal from-left">
+
+          <div class="eyebrow" id="subjectExamLabel">
+            JEE / PHYSICS
+          </div>
+
+          <h1>
+            <span id="subjectTitleAccent">Physics.</span>
+            One chapter
+            at a time.
+          </h1>
+
+          <p class="subject-hero-description" id="subjectDescription">
+            Master the subject through a clear, chapter-first
+            preparation path.
+          </p>
+
+        </div>
+
+        <div class="subject-stat reveal from-right">
+          <strong id="chapterTotal">0</strong>
+          <span>chapters organized</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="container">
+
+    <div class="chapter-tools">
+
+      <div class="chapter-count">
+        Browse by topic
+      </div>
+
+      <div class="chapter-search">
+        <input
+          id="chapterSearch"
+          type="text"
+          placeholder="Search chapters..."
+          oninput="filterChapters()">
+      </div>
+
+    </div>
+
+    <div id="chapterContainer"></div>
+
+  </section>
+
+</main>
+
+
+<!-- =======================================================
+     CHAPTER RESOURCE PAGE
+     ======================================================= -->
+
+<main id="chapterPage" class="page chapter-page">
+
+  <section class="chapter-hero">
+
+    <div class="container">
+
+      <button class="back-btn" onclick="backToSubject()">
+        ← Back to chapters
+      </button>
+
+      <div class="chapter-kicker" id="chapterKicker">
+        JEE / PHYSICS
+      </div>
+
+      <h1 id="chapterTitle">
+        Kinematics
+      </h1>
+
+      <p id="chapterSubtitle">
+        Understand the concepts, then sharpen them with questions.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <div class="resource-nav">
+
+    <div class="container resource-nav-inner">
+
+      <button class="resource-tab active"
+              onclick="showResource('overview',this)">
+        Overview
+      </button>
+
+      <button class="resource-tab"
+              onclick="showResource('notes',this)">
+        Notes
+      </button>
+
+      <button class="resource-tab"
+              onclick="showResource('short',this)">
+        Short Notes
+      </button>
+
+      <button class="resource-tab"
+              onclick="showResource('formula',this)">
+        Formula Sheet
+      </button>
+
+      <button class="resource-tab"
+              onclick="showResource('questions',this)">
+        Questions
+      </button>
+
+      <button class="resource-tab"
+              onclick="showResource('pyq',this)">
+        PYQs
+      </button>
+
+      <button class="resource-tab"
+              onclick="showResource('revision',this)">
+        Revision
+      </button>
+
+      <button class="resource-tab"
+              onclick="showResource('tests',this)">
+        Tests
+      </button>
+
+      <button class="resource-tab"
+              onclick="showResource('lectures',this)">
+        Lectures
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <section class="container resource-content">
+
+    <!-- OVERVIEW -->
+
+    <div class="resource-panel active" id="resource-overview">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Start here
+        </div>
+
+        <div class="resource-main">
+
+          <h2>Build the concept first.</h2>
+
+          <p>
+            This chapter workspace is where your learning material
+            will live. Start with the overview, then move into
+            notes, formulas, questions and PYQs.
+          </p>
+
+          <div class="resource-note">
+            <strong>StudyVault structure</strong>
+            <p>
+              Learn → revise → practice → test.
+              The resources are organized in that order so you
+              don't have to hunt around the website.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- NOTES -->
+
+    <div class="resource-panel" id="resource-notes">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Notes
+        </div>
+
+        <div class="resource-main">
+
+          <h2>Detailed chapter notes.</h2>
+
+          <p>
+            Your complete conceptual notes for this chapter will
+            appear here.
+          </p>
+
+          <div class="resource-note">
+            📚 Detailed notes are being prepared for this chapter.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- SHORT NOTES -->
+
+    <div class="resource-panel" id="resource-short">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Quick revision
+        </div>
+
+        <div class="resource-main">
+
+          <h2>Short notes.</h2>
+
+          <p>
+            Condensed concepts, important observations and
+            last-minute revision material.
+          </p>
+
+          <div class="resource-list">
+
+            <div class="resource-list-item">
+              <span>Key concepts</span>
+              <span>Coming soon</span>
+            </div>
+
+            <div class="resource-list-item">
+              <span>Important exceptions</span>
+              <span>Coming soon</span>
+            </div>
+
+            <div class="resource-list-item">
+              <span>Common mistakes</span>
+              <span>Coming soon</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- FORMULA -->
+
+    <div class="resource-panel" id="resource-formula">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Formulas
+        </div>
+
+        <div class="resource-main">
+
+          <h2>Formula sheet.</h2>
+
+          <p>
+            Important formulas and relationships for fast revision.
+          </p>
+
+          <div class="resource-note">
+            Formula sheets will be added chapter-by-chapter.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- QUESTIONS -->
+
+    <div class="resource-panel" id="resource-questions">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Practice
+        </div>
+
+        <div class="resource-main">
+
+          <h2>Practice questions.</h2>
+
+          <p>
+            Chapter-wise questions arranged from basic understanding
+            to exam-level application.
+          </p>
+
+          <div class="resource-note">
+            Question bank coming soon.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- PYQ -->
+
+    <div class="resource-panel" id="resource-pyq">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Previous years
+        </div>
+
+        <div class="resource-main">
+
+          <h2>PYQs.</h2>
+
+          <p>
+            Previous-year questions organized specifically for
+            this chapter.
+          </p>
+
+          <div class="resource-list">
+
+            <div class="resource-list-item">
+              <span>Recent PYQs</span>
+              <span>Coming soon</span>
+            </div>
+
+            <div class="resource-list-item">
+              <span>Older PYQs</span>
+              <span>Coming soon</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- REVISION -->
+
+    <div class="resource-panel" id="resource-revision">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Revision
+        </div>
+
+        <div class="resource-main">
+
+          <h2>Revise without restarting.</h2>
+
+          <p>
+            Quick revision paths, important concepts and
+            high-frequency ideas.
+          </p>
+
+          <div class="resource-note">
+            Revision packs coming soon.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- TESTS -->
+
+    <div class="resource-panel" id="resource-tests">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Test yourself
+        </div>
+
+        <div class="resource-main">
+
+          <h2>Chapter tests.</h2>
+
+          <p>
+            Test your understanding after completing the chapter.
+          </p>
+
+          <div class="resource-note">
+            Interactive tests are planned for a future StudyVault release.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- LECTURES -->
+
+    <div class="resource-panel" id="resource-lectures">
+
+      <div class="resource-layout">
+
+        <div class="resource-side-label">
+          Learn visually
+        </div>
+
+        <div class="resource-main">
+
+          <h2>Lectures.</h2>
+
+          <p>
+            Legitimate educational lectures and playlists can be
+            organized here chapter-by-chapter.
+          </p>
+
+          <div class="resource-note">
+            Lecture links will be added here.
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<!-- =======================================================
+     NCERT PAGE
+     ======================================================= -->
+
+<main id="ncertPage" class="page ncert-page">
+
+  <section class="ncert-hero">
+
+    <div class="container">
+
+      <button class="back-btn" onclick="goHome()">
+        ← Back to StudyVault
+      </button>
+
+      <div class="eyebrow">NCERT Hub</div>
+
+      <h1>
+        School
+        <span>foundation.</span>
+      </h1>
+
+      <p>
+        Class 11 and 12 chapters organized separately for PCM
+        and PCB students.
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <section class="container">
+
+    <div class="ncert-controls">
+
+      <button class="ncert-filter active"
+              onclick="filterNCERT('ALL',this)">
+        All
+      </button>
+
+      <button class="ncert-filter"
+              onclick="filterNCERT('PCM',this)">
+        PCM
+      </button>
+
+      <button class="ncert-filter"
+              onclick="filterNCERT('PCB',this)">
+        PCB
+      </button>
+
+      <button class="ncert-filter"
+              onclick="filterNCERT('11',this)">
+        Class 11
+      </button>
+
+      <button class="ncert-filter"
+              onclick="filterNCERT('12',this)">
+        Class 12
+      </button>
+
+    </div>
+
+    <div class="ncert-grid" id="ncertGrid"></div>
+
+  </section>
+
+</main>
+
+
+<!-- =======================================================
+     SEARCH OVERLAY
+     ======================================================= -->
+
+<div class="search-overlay" id="searchOverlay">
+
+  <div class="search-box">
+
+    <div class="search-top">
+
+      <input
+        id="globalSearch"
+        type="text"
+        placeholder="Search subjects, chapters..."
+        oninput="globalSearch()"
+        autocomplete="off">
+
+      <button class="close-search"
+              onclick="closeSearch()">
+        ×
+      </button>
+
+    </div>
+
+    <div class="search-results" id="searchResults">
+      <div style="color:var(--muted);padding:25px 5px;">
+        Start typing to search StudyVault.
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+/* =========================================================
+   STUDYVAULT DATA
+   ========================================================= */
+
+const data = {
+
+  JEE: {
+
+    Physics: {
+
+      description:
+        "Mechanics, electricity, optics and modern physics organized into a clean chapter-first path.",
+
+      categories: {
+
+        "Mechanics": [
+          "Units and Measurements",
+          "Vectors",
+          "Kinematics",
+          "Laws of Motion",
+          "Work, Energy and Power",
+          "Centre of Mass and System of Particles",
+          "Rotational Motion",
+          "Gravitation"
+        ],
+
+        "Properties of Matter": [
+          "Mechanical Properties of Solids",
+          "Mechanical Properties of Fluids",
+          "Thermal Properties of Matter"
+        ],
+
+        "Thermodynamics & Waves": [
+          "Thermodynamics",
+          "Kinetic Theory of Gases",
+          "Simple Harmonic Motion",
+          "Waves"
+        ],
+
+        "Electrodynamics": [
+          "Electric Charges and Fields",
+          "Electrostatic Potential and Capacitance",
+          "Current Electricity",
+          "Moving Charges and Magnetism",
+          "Magnetism and Matter",
+          "Electromagnetic Induction",
+          "Alternating Current"
+        ],
+
+        "Electromagnetic Waves": [
+          "Electromagnetic Waves"
+        ],
+
+        "Optics": [
+          "Ray Optics and Optical Instruments",
+          "Wave Optics"
+        ],
+
+        "Modern Physics": [
+          "Dual Nature of Radiation and Matter",
+          "Atoms",
+          "Nuclei",
+          "Semiconductor Electronics"
+        ],
+
+        "Experimental Physics": [
+          "Experimental Skills"
+        ]
+
+      }
+
+    },
+
+
+    Chemistry: {
+
+      description:
+        "Physical, Organic and Inorganic Chemistry separated by the way the subject is actually studied.",
+
+      categories: {
+
+        "Physical Chemistry": [
+          "Some Basic Concepts of Chemistry",
+          "Structure of Atom",
+          "States of Matter",
+          "Thermodynamics",
+          "Equilibrium",
+          "Redox Reactions",
+          "Solutions",
+          "Electrochemistry",
+          "Chemical Kinetics",
+          "Surface Chemistry"
+        ],
+
+        "Inorganic Chemistry": [
+          "Classification of Elements and Periodicity",
+          "Chemical Bonding and Molecular Structure",
+          "Hydrogen",
+          "The s-Block Elements",
+          "The p-Block Elements",
+          "The d- and f-Block Elements",
+          "Coordination Compounds",
+          "Metallurgy",
+          "Environmental Chemistry"
+        ],
+
+        "Organic Chemistry": [
+          "Organic Chemistry — Basic Principles",
+          "Hydrocarbons",
+          "Haloalkanes and Haloarenes",
+          "Alcohols, Phenols and Ethers",
+          "Aldehydes, Ketones and Carboxylic Acids",
+          "Amines",
+          "Biomolecules",
+          "Polymers",
+          "Chemistry in Everyday Life"
+        ]
+
+      }
+
+    },
+
+
+    Mathematics: {
+
+      description:
+        "A chapter-first mathematics path organized by the major mathematical ideas used in JEE.",
+
+      categories: {
+
+        "Algebra": [
+          "Sets and Relations",
+          "Complex Numbers",
+          "Quadratic Equations",
+          "Sequences and Series",
+          "Binomial Theorem",
+          "Permutations and Combinations",
+          "Matrices",
+          "Determinants",
+          "Mathematical Reasoning"
+        ],
+
+        "Trigonometry": [
+          "Trigonometric Ratios and Identities",
+          "Trigonometric Equations",
+          "Inverse Trigonometric Functions"
+        ],
+
+        "Coordinate Geometry": [
+          "Straight Lines",
+          "Circles",
+          "Parabola",
+          "Ellipse",
+          "Hyperbola"
+        ],
+
+        "Calculus": [
+          "Limits",
+          "Continuity and Differentiability",
+          "Application of Derivatives",
+          "Indefinite Integration",
+          "Definite Integration",
+          "Area Under Curves",
+          "Differential Equations"
+        ],
+
+        "Vectors & 3D": [
+          "Vector Algebra",
+          "Three Dimensional Geometry"
+        ],
+
+        "Probability & Statistics": [
+          "Statistics",
+          "Probability",
+          "Probability Distributions"
+        ]
+
+      }
+
+    }
+
+  },
+
+
+  NEET: {
+
+    Physics: {
+
+      description:
+        "NEET Physics organized from mechanics through electricity, optics and modern physics.",
+
+      categories: {
+
+        "Mechanics": [
+          "Units and Measurements",
+          "Motion in a Straight Line",
+          "Motion in a Plane",
+          "Laws of Motion",
+          "Work, Energy and Power",
+          "System of Particles and Rotational Motion",
+          "Gravitation"
+        ],
+
+        "Properties of Matter": [
+          "Mechanical Properties of Solids",
+          "Mechanical Properties of Fluids",
+          "Thermal Properties of Matter"
+        ],
+
+        "Thermal Physics": [
+          "Thermodynamics",
+          "Kinetic Theory"
+        ],
+
+        "Oscillations & Waves": [
+          "Oscillations",
+          "Waves"
+        ],
+
+        "Electricity & Magnetism": [
+          "Electric Charges and Fields",
+          "Electrostatic Potential and Capacitance",
+          "Current Electricity",
+          "Moving Charges and Magnetism",
+          "Magnetism and Matter",
+          "Electromagnetic Induction",
+          "Alternating Current"
+        ],
+
+        "Electromagnetic Waves": [
+          "Electromagnetic Waves"
+        ],
+
+        "Optics": [
+          "Ray Optics and Optical Instruments",
+          "Wave Optics"
+        ],
+
+        "Modern Physics": [
+          "Dual Nature of Matter and Radiation",
+          "Atoms",
+          "Nuclei",
+          "Semiconductor Electronics"
+        ],
+
+        "Experimental Physics": [
+          "Experimental Skills"
+        ]
+
+      }
+
+    },
+
+
+    Chemistry: {
+
+      description:
+        "Physical, Organic and Inorganic Chemistry arranged into focused preparation blocks.",
+
+      categories: {
+
+        "Physical Chemistry": [
+          "Some Basic Concepts of Chemistry",
+          "Atomic Structure",
+          "Chemical Bonding",
+          "Thermodynamics",
+          "Equilibrium",
+          "Redox Reactions",
+          "Solutions",
+          "Electrochemistry",
+          "Chemical Kinetics"
+        ],
+
+        "Inorganic Chemistry": [
+          "Classification of Elements and Periodicity",
+          "Hydrogen",
+          "s-Block Elements",
+          "p-Block Elements",
+          "d- and f-Block Elements",
+          "Coordination Compounds",
+          "Environmental Chemistry"
+        ],
+
+        "Organic Chemistry": [
+          "Organic Chemistry — Basic Principles",
+          "Hydrocarbons",
+          "Haloalkanes and Haloarenes",
+          "Alcohols, Phenols and Ethers",
+          "Aldehydes, Ketones and Carboxylic Acids",
+          "Amines",
+          "Biomolecules",
+          "Polymers",
+          "Chemistry in Everyday Life"
+        ]
+
+      }
+
+    },
+
+
+    Biology: {
+
+      description:
+        "Biology organized around the major systems and concepts needed for NEET preparation.",
+
+      categories: {
+
+        "Diversity of Life": [
+          "The Living World",
+          "Biological Classification",
+          "Plant Kingdom",
+          "Animal Kingdom"
+        ],
+
+        "Plant Structure & Function": [
+          "Morphology of Flowering Plants",
+          "Anatomy of Flowering Plants",
+          "Structural Organisation in Animals",
+          "Cell: The Unit of Life",
+          "Cell Cycle and Cell Division",
+          "Transport in Plants",
+          "Mineral Nutrition",
+          "Photosynthesis in Plants",
+          "Respiration in Plants",
+          "Plant Growth and Development"
+        ],
+
+        "Human Physiology": [
+          "Digestion and Absorption",
+          "Breathing and Exchange of Gases",
+          "Body Fluids and Circulation",
+          "Excretory Products and Elimination",
+          "Locomotion and Movement",
+          "Neural Control and Coordination",
+          "Chemical Coordination and Integration"
+        ],
+
+        "Reproduction": [
+          "Reproduction in Organisms",
+          "Sexual Reproduction in Flowering Plants",
+          "Human Reproduction",
+          "Reproductive Health"
+        ],
+
+        "Genetics & Evolution": [
+          "Principles of Inheritance and Variation",
+          "Molecular Basis of Inheritance",
+          "Evolution"
+        ],
+
+        "Biology in Human Welfare": [
+          "Human Health and Disease",
+          "Strategies for Enhancement in Food Production",
+          "Microbes in Human Welfare"
+        ],
+
+        "Biotechnology": [
+          "Biotechnology: Principles and Processes",
+          "Biotechnology and its Applications"
+        ],
+
+        "Ecology & Environment": [
+          "Organisms and Populations",
+          "Ecosystem",
+          "Biodiversity and Conservation",
+          "Environmental Issues"
+        ]
+
+      }
+
+    }
+
+  }
+
+};
+
+
+/* =========================================================
+   NCERT DATA
+   ========================================================= */
+
+const ncertData = [
+
+  {
+    class:"11",
+    stream:"PCM",
+    subject:"Physics",
+    chapters:[
+      "Physical World and Measurement",
+      "Kinematics",
+      "Laws of Motion",
+      "Work, Energy and Power",
+      "Motion of System of Particles",
+      "Gravitation",
+      "Properties of Bulk Matter",
+      "Thermodynamics",
+      "Behaviour of Perfect Gas",
+      "Oscillations and Waves"
+    ]
+  },
+
+  {
+    class:"11",
+    stream:"PCM",
+    subject:"Chemistry",
+    chapters:[
+      "Some Basic Concepts of Chemistry",
+      "Structure of Atom",
+      "Classification of Elements",
+      "Chemical Bonding",
+      "Thermodynamics",
+      "Equilibrium",
+      "Redox Reactions",
+      "Organic Chemistry",
+      "Hydrocarbons",
+      "Environmental Chemistry"
+    ]
+  },
+
+  {
+    class:"11",
+    stream:"PCM",
+    subject:"Mathematics",
+    chapters:[
+      "Sets",
+      "Relations and Functions",
+      "Trigonometric Functions",
+      "Complex Numbers",
+      "Linear Inequalities",
+      "Permutations and Combinations",
+      "Binomial Theorem",
+      "Sequences and Series",
+      "Straight Lines",
+      "Conic Sections",
+      "Introduction to Three Dimensional Geometry",
+      "Limits and Derivatives",
+      "Statistics",
+      "Probability"
+    ]
+  },
+
+  {
+    class:"11",
+    stream:"PCB",
+    subject:"Biology",
+    chapters:[
+      "The Living World",
+      "Biological Classification",
+      "Plant Kingdom",
+      "Animal Kingdom",
+      "Morphology of Flowering Plants",
+      "Anatomy of Flowering Plants",
+      "Structural Organisation in Animals",
+      "Cell: The Unit of Life",
+      "Biomolecules",
+      "Cell Cycle and Cell Division",
+      "Transport in Plants",
+      "Mineral Nutrition",
+      "Photosynthesis",
+      "Respiration in Plants",
+      "Plant Growth and Development",
+      "Digestion and Absorption",
+      "Breathing and Exchange of Gases",
+      "Body Fluids and Circulation",
+      "Excretory Products",
+      "Locomotion and Movement",
+      "Neural Control",
+      "Chemical Coordination"
+    ]
+  },
+
+  {
+    class:"12",
+    stream:"PCM",
+    subject:"Physics",
+    chapters:[
+      "Electric Charges and Fields",
+      "Electrostatic Potential",
+      "Current Electricity",
+      "Moving Charges and Magnetism",
+      "Magnetism and Matter",
+      "Electromagnetic Induction",
+      "Alternating Current",
+      "Electromagnetic Waves",
+      "Ray Optics",
+      "Wave Optics",
+      "Dual Nature of Radiation",
+      "Atoms",
+      "Nuclei",
+      "Semiconductor Electronics"
+    ]
+  },
+
+  {
+    class:"12",
+    stream:"PCM",
+    subject:"Chemistry",
+    chapters:[
+      "Solutions",
+      "Electrochemistry",
+      "Chemical Kinetics",
+      "d and f Block Elements",
+      "Coordination Compounds",
+      "Haloalkanes and Haloarenes",
+      "Alcohols, Phenols and Ethers",
+      "Aldehydes, Ketones and Carboxylic Acids",
+      "Amines",
+      "Biomolecules",
+      "Polymers",
+      "Chemistry in Everyday Life"
+    ]
+  },
+
+  {
+    class:"12",
+    stream:"PCM",
+    subject:"Mathematics",
+    chapters:[
+      "Relations and Functions",
+      "Inverse Trigonometric Functions",
+      "Matrices",
+      "Determinants",
+      "Continuity and Differentiability",
+      "Application of Derivatives",
+      "Integrals",
+      "Application of Integrals",
+      "Differential Equations",
+      "Vector Algebra",
+      "Three Dimensional Geometry",
+      "Linear Programming",
+      "Probability"
+    ]
+  },
+
+  {
+    class:"12",
+    stream:"PCB",
+    subject:"Biology",
+    chapters:[
+      "Reproduction in Organisms",
+      "Sexual Reproduction in Flowering Plants",
+      "Human Reproduction",
+      "Reproductive Health",
+      "Principles of Inheritance",
+      "Molecular Basis of Inheritance",
+      "Evolution",
+      "Human Health and Disease",
+      "Strategies for Enhancement in Food Production",
+      "Microbes in Human Welfare",
+      "Biotechnology Principles",
+      "Biotechnology Applications",
+      "Organisms and Populations",
+      "Ecosystem",
+      "Biodiversity and Conservation",
+      "Environmental Issues"
+    ]
+  }
+
+];
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+let currentExam = null;
+let currentSubject = null;
+let currentChapter = null;
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+function loadTheme(){
+
+  const saved = localStorage.getItem("studyvault-theme");
+
+  if(saved === "dark"){
+    document.documentElement.setAttribute("data-theme","dark");
+    document.getElementById("themeBtn").textContent = "☀";
+  }else{
+    document.documentElement.setAttribute("data-theme","light");
+    document.getElementById("themeBtn").textContent = "◐";
+  }
+
+}
+
+function toggleTheme(){
+
+  const html = document.documentElement;
+
+  const dark =
+    html.getAttribute("data-theme") === "dark";
+
+  html.setAttribute(
+    "data-theme",
+    dark ? "light" : "dark"
+  );
+
+  localStorage.setItem(
+    "studyvault-theme",
+    dark ? "light" : "dark"
+  );
+
+  document.getElementById("themeBtn").textContent =
+    dark ? "◐" : "☀";
+
+}
+
+
+/* =========================================================
+   PAGE NAVIGATION
+   ========================================================= */
+
+function hidePages(){
+
+  document.querySelectorAll(".page").forEach(page=>{
+    page.classList.remove("active");
+  });
+
+}
+
+function showPage(id){
+
+  hidePages();
+
+  document.getElementById(id).classList.add("active");
+
+  window.scrollTo({
+    top:0,
+    behavior:"instant"
+  });
+
+  closeMobileMenu();
+
+  setTimeout(initReveals,50);
+
+}
+
+function goHome(){
+
+  showPage("homePage");
+
+  document.querySelectorAll(".nav-links button")
+    .forEach(btn=>btn.classList.remove("active"));
+
+}
+
+
+/* =========================================================
+   EXAM
+   ========================================================= */
+
+function openExam(exam){
+
+  currentExam = exam;
+
+  showPage("homePage");
+
+  const target =
+    exam === "JEE"
+      ? document.getElementById("jeeHome")
+      : document.getElementById("neetHome");
+
+  setTimeout(()=>{
+    target.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  },80);
+
+}
+
+
+/* =========================================================
+   SUBJECT
+   ========================================================= */
+
+function openSubject(exam,subject){
+
+  currentExam = exam;
+  currentSubject = subject;
+
+  const subjectData =
+    data[exam][subject];
+
+  document.getElementById("subjectExamLabel")
+    .textContent =
+    exam + " / " + subject;
+
+  document.getElementById("subjectTitleAccent")
+    .textContent =
+    subject + ".";
+
+  document.getElementById("subjectDescription")
+    .textContent =
+    subjectData.description;
+
+  let total = 0;
+
+  Object.values(subjectData.categories)
+    .forEach(arr=>total += arr.length);
+
+  document.getElementById("chapterTotal")
+    .textContent = total;
+
+  document.getElementById("chapterSearch")
+    .value = "";
+
+  renderChapters();
+
+  showPage("subjectPage");
+
+}
+
+
+/* =========================================================
+   CHAPTER RENDER
+   ========================================================= */
+
+function renderChapters(filter=""){
+
+  const container =
+    document.getElementById("chapterContainer");
+
+  const subjectData =
+    data[currentExam][currentSubject];
+
+  container.innerHTML = "";
+
+  let globalIndex = 1;
+
+  Object.entries(subjectData.categories)
+    .forEach(([category,chapters],categoryIndex)=>{
+
+      const filtered =
+        chapters.filter(chapter =>
+          chapter.toLowerCase()
+            .includes(filter.toLowerCase())
+        );
+
+      if(filtered.length === 0) return;
+
+      const section =
+        document.createElement("section");
+
+      section.className =
+        "chapter-category reveal " +
+        (categoryIndex % 2 === 0
+          ? "from-left"
+          : "from-right");
+
+      section.innerHTML = `
+        <div class="category-heading">
+          <small>${String(categoryIndex+1).padStart(2,"0")}</small>
+          <h2>${category}</h2>
+        </div>
+
+        <div class="chapter-list"></div>
+      `;
+
+      const list =
+        section.querySelector(".chapter-list");
+
+      filtered.forEach(chapter=>{
+
+        const row =
+          document.createElement("div");
+
+        row.className = "chapter-row";
+
+        const number =
+          String(globalIndex++).padStart(2,"0");
+
+        row.innerHTML = `
+          <span class="chapter-number">${number}</span>
+          <span class="chapter-name">${chapter}</span>
+          <span class="chapter-type">${category}</span>
+          <span class="chapter-arrow">→</span>
+        `;
+
+        row.addEventListener("click",()=>{
+          openChapter(chapter,category);
+        });
+
+        list.appendChild(row);
+
+      });
+
+      container.appendChild(section);
+
+    });
+
+  initReveals();
+
+}
+
+
+/* =========================================================
+   CHAPTER SEARCH
+   ========================================================= */
+
+function filterChapters(){
+
+  const input =
+    document.getElementById("chapterSearch");
+
+  renderChapters(input.value);
+
+}
+
+
+/* =========================================================
+   OPEN CHAPTER
+   ========================================================= */
+
+function openChapter(chapter,category){
+
+  currentChapter = chapter;
+
+  document.getElementById("chapterKicker")
+    .textContent =
+    currentExam +
+    " / " +
+    currentSubject +
+    " / " +
+    category;
+
+  document.getElementById("chapterTitle")
+    .textContent = chapter;
+
+  document.getElementById("chapterSubtitle")
+    .textContent =
+    "Understand " +
+    chapter +
+    ", build the fundamentals and practice until it becomes automatic.";
+
+  resetResourceTabs();
+
+  showPage("chapterPage");
+
+}
+
+
+/* =========================================================
+   BACK
+   ========================================================= */
+
+function backToSubject(){
+
+  openSubject(
+    currentExam,
+    currentSubject
+  );
+
+}
+
+
+/* =========================================================
+   RESOURCES
+   ========================================================= */
+
+function resetResourceTabs(){
+
+  document.querySelectorAll(".resource-tab")
+    .forEach(tab=>tab.classList.remove("active"));
+
+  document.querySelectorAll(".resource-panel")
+    .forEach(panel=>panel.classList.remove("active"));
+
+  document.querySelector(".resource-tab")
+    .classList.add("active");
+
+  document.getElementById("resource-overview")
+    .classList.add("active");
+
+}
+
+function showResource(name,button){
+
+  document.querySelectorAll(".resource-tab")
+    .forEach(tab=>tab.classList.remove("active"));
+
+  document.querySelectorAll(".resource-panel")
+    .forEach(panel=>panel.classList.remove("active"));
+
+  button.classList.add("active");
+
+  const panel =
+    document.getElementById(
+      "resource-" + name
+    );
+
+  if(panel){
+    panel.classList.add("active");
+  }
+
+}
+
+
+/* =========================================================
+   NCERT
+   ========================================================= */
+
+function openNCERT(filter="ALL"){
+
+  showPage("ncertPage");
+
+  renderNCERT(filter);
+
+}
+
+function renderNCERT(filter="ALL"){
+
+  const grid =
+    document.getElementById("ncertGrid");
+
+  grid.innerHTML = "";
+
+  ncertData.forEach((item,index)=>{
+
+    const matches =
+      filter === "ALL" ||
+      filter === item.stream ||
+      filter === item.class;
+
+    if(!matches) return;
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "ncert-card reveal " +
+      (index % 2 === 0
+        ? "from-left"
+        : "from-right");
+
+    card.innerHTML = `
+      <div class="num">
+        ${item.class} · ${item.stream}
+      </div>
+
+      <h3>${item.subject}</h3>
+
+      <p>
+        ${item.chapters.length}
+        chapters organized for ${item.subject}.
+      </p>
+    `;
+
+    card.addEventListener("click",()=>{
+      alert(
+        item.subject +
+        " · Class " +
+        item.class +
+        " · " +
+        item.stream +
+        "\\n\\nChapter list is ready to be connected to NCERT resources."
+      );
+    });
+
+    grid.appendChild(card);
+
+  });
+
+  initReveals();
+
+}
+
+function filterNCERT(filter,button){
+
+  document.querySelectorAll(".ncert-filter")
+    .forEach(btn=>btn.classList.remove("active"));
+
+  button.classList.add("active");
+
+  renderNCERT(filter);
+
+}
+
+
+/* =========================================================
+   GLOBAL SEARCH
+   ========================================================= */
+
+function openSearch(){
+
+  document.getElementById("searchOverlay")
+    .classList.add("open");
+
+  setTimeout(()=>{
+    document.getElementById("globalSearch").focus();
+  },100);
+
+}
+
+function closeSearch(){
+
+  document.getElementById("searchOverlay")
+    .classList.remove("open");
+
+}
+
+function globalSearch(){
+
+  const query =
+    document.getElementById("globalSearch")
+      .value
+      .trim()
+      .toLowerCase();
+
+  const results =
+    document.getElementById("searchResults");
+
+  if(!query){
+
+    results.innerHTML = `
+      <div style="color:var(--muted);padding:25px 5px;">
+        Start typing to search StudyVault.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  const matches = [];
+
+  Object.entries(data).forEach(
+    ([exam,subjects])=>{
+
+      Object.entries(subjects).forEach(
+        ([subject,subjectData])=>{
+
+          Object.entries(subjectData.categories)
+            .forEach(([category,chapters])=>{
+
+              chapters.forEach(chapter=>{
+
+                if(
+                  chapter.toLowerCase().includes(query) ||
+                  subject.toLowerCase().includes(query) ||
+                  category.toLowerCase().includes(query)
+                ){
+
+                  matches.push({
+                    exam,
+                    subject,
+                    category,
+                    chapter
+                  });
+
+                }
+
+              });
+
+            });
+
+        }
+      );
+
+    }
+  );
+
+  if(matches.length === 0){
+
+    results.innerHTML = `
+      <div style="color:var(--muted);padding:25px 5px;">
+        No results found.
+      </div>
+    `;
+
+    return;
+
+  }
+
+  results.innerHTML = "";
+
+  matches.slice(0,40).forEach(item=>{
+
+    const row =
+      document.createElement("div");
+
+    row.className = "search-result";
+
+    row.innerHTML = `
+      <div>
+        <strong>${item.chapter}</strong>
+        <br>
+        <small>
+          ${item.exam} ·
+          ${item.subject} ·
+          ${item.category}
+        </small>
+      </div>
+
+      <span>→</span>
+    `;
+
+    row.addEventListener("click",()=>{
+
+      closeSearch();
+
+      openSubject(
+        item.exam,
+        item.subject
+      );
+
+      setTimeout(()=>{
+        openChapter(
+          item.chapter,
+          item.category
+        );
+      },100);
+
+    });
+
+    results.appendChild(row);
+
+  });
+
+}
+
+
+/* =========================================================
+   MOBILE NAV
+   ========================================================= */
+
+function toggleMobileMenu(){
+
+  document
+    .getElementById("navLinks")
+    .classList.toggle("mobile-open");
+
+}
+
+function closeMobileMenu(){
+
+  document
+    .getElementById("navLinks")
+    .classList.remove("mobile-open");
+
+}
+
+
+/* =========================================================
+   SCROLL REVEAL
+   ========================================================= */
+
+let revealObserver;
+
+function initReveals(){
+
+  if(revealObserver){
+    revealObserver.disconnect();
+  }
+
+  const elements =
+    document.querySelectorAll(
+      ".reveal:not(.visible)"
+    );
+
+  revealObserver =
+    new IntersectionObserver(
+      entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+
+            entry.target.classList.add("visible");
+
+            revealObserver.unobserve(
+              entry.target
+            );
+
+          }
+        });
+      },
+      {
+        threshold:.12,
+        rootMargin:"0px 0px -60px 0px"
+      }
+    );
+
+  elements.forEach(el=>{
+    revealObserver.observe(el);
+  });
+
+}
+
+
+/* =========================================================
+   KEYBOARD SHORTCUTS
+   ========================================================= */
+
+document.addEventListener("keydown",event=>{
+
+  if(event.key === "/" &&
+     document.activeElement.tagName !== "INPUT"){
+
+    event.preventDefault();
+    openSearch();
+
+  }
+
+  if(event.key === "Escape"){
+    closeSearch();
+  }
+
+});
+
+
+/* =========================================================
+   CLOSE SEARCH WHEN CLICKING OUTSIDE
+   ========================================================= */
+
+document
+  .getElementById("searchOverlay")
+  .addEventListener("click",event=>{
+
+    if(event.target.id === "searchOverlay"){
+      closeSearch();
+    }
+
+  });
+
+
+/* =========================================================
+   INITIALIZE
+   ========================================================= */
+
+loadTheme();
+initReveals();
+
+</script>
+
+</body>
+</html>
